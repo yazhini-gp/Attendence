@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+    #qrcode { margin-top: 20px; }
+  </style>
+
+  <!-- QR Code generation library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode"></script>
+  <!-- QR Code scanning library -->
+  <script src="https://unpkg.com/html5-qrcode"></script>
+
+</head>
+<body>
+  <h1>📅 Attendance Dashboard</h1>
+
+  <p id="userInfo" style="font-weight: bold; color: green;"></p>
+
+  <div id="classInfo"></div>
+
+  <div id="attendanceForm" style="display: none;">
+    <label for="attendance">Mark your Attendance:</label>
+    <select id="attendance">
+      <option value="present">Present</option>
+      <option value="absent">Absent</option>
+    </select>
+    <button onclick="submitAttendance()">Submit Attendance</button>
+  </div>
+
+  <table id="attendanceTable">
+    <thead>
+      <tr><th>Date</th><th>Status</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>  
+
+  <!-- QR Code display for teachers -->
+  <canvas id="qrcode"></canvas>
+
+  <!-- QR Code scanner for students -->
+  <div id="reader" style="width: 300px;"></div>
+
+  <script>
+    fetch('http://localhost:5000/api/session', {
+      credentials: 'include'
+    })
+    .then(res => res.json())
+    .then(user => {
+      const { username, role } = user;
+      document.getElementById('userInfo').innerText = `Logged in as: ${username} (${role})`;
+
+      if (role === 'teacher') {
+        // Generate QR code with attendance data
+        const qrData = JSON.stringify({
+          teacher: username,
+          date: new Date().toISOString().split('T')[0],
+          className: "Class Name" // You can dynamically set this depending on your class logic
+        });
+
+        QRCode.toCanvas(document.getElementById('qrcode'), qrData, function (error) {
+          if (error) console.error(error);
+          console.log('QR Code generated!');
+        });
+      } else {
+        // Hide QR code canvas for students
+        document.getElementById('qrcode').style.display = 'none';
+
+        // Initialize QR code scanner
+        function onScanSuccess(decodedText, decodedResult) {
+          try {
+            const data = JSON.parse(decodedText);
+            window.localStorage.setItem('qrData', JSON.stringify(data));
+
+            const { className, date } = data;
+            document.getElementById('classInfo').innerHTML = `
+              <p>Class: ${className}</p>
+              <p>Date: ${date}</p>
+            `;
+
+            // Show the attendance form for the student
+            document.getElementById('attendanceForm').style.display = 'block';
+          } catch (e) {
+            alert('Invalid QR code.');
+          }
+        }
+
+        var html5QrcodeScanner = new Html5QrcodeScanner(
+          "reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess);
+      }
+
+      // Fetch attendance data
+      const url = role === 'teacher'
+        ? 'http://localhost:5000/api/attendance/all'
+        : `http://localhost:5000/api/attendance/${username}`;
+
+      fetch(url, { credentials: 'include' })
+        .then(res => res.json())
+        .then(data => {
+          const table = document.querySelector('#attendanceTable tbody');
+          table.innerHTML = '';
+
+          if (role === 'teacher') {
+            data.forEach(record => {
+              const row = `<tr>
+                <td>${record.username}</td>
+                <td>${record.date}</td>
+                <td>${record.status}</td>
+              </tr>`;
+              table.innerHTML += row;
+            });
+          } else {
+            let present = 0, absent = 0;
+            data.forEach(record => {
+              if (record.status.toLowerCase() === 'present') present++;
+              else absent++;
+            });
+
+            document.querySelector('#attendanceTable thead').innerHTML = `
+              <tr>
+                <th>Total Days</th>
+                <th>Present</th>
+                <th>Absent</th>
+              </tr>`;
+            
+            table.innerHTML = `
+              <tr>
+                <td>${present + absent}</td>
+                <td>${present}</td>
+                <td>${absent}</td>
+              </tr>`;
+          }
+        });
+    })
+    .catch(() => {
+      alert("Please login first");
+      window.location.href = 'login.html';
+    });
+
+    // Submit attendance form
+    function submitAttendance() {
+      const attendanceStatus = document.getElementById('attendance').value;
+      const qrData = JSON.parse(window.localStorage.getItem('qrData'));
+
+      if (!qrData) {
+        alert('QR Code data not found!');
+        return;
+      }
+
+      const data = { status: attendanceStatus, ...qrData };
+
+      fetch('http://localhost:5000/api/attendance/mark', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.success) {
+          alert('Attendance marked successfully!');
+        } else {
+          alert('Failed to mark attendance!');
+        }
+      })
+      .catch(err => {
+        console.error('Error:', err);
+        alert('❌ Server error marking attendance.');
+      });
+    }
+  </script>
+</body>
+</html>

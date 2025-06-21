@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student - Scan QR</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    #status {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+  <h2>Scan QR to Mark Attendance</h2>
+  <input type="text" id="rollNumber" placeholder="Enter your Session Id: ">
+  <div id="reader" style="width: 300px; margin-top: 20px;"></div>
+  <div id="status"></div>
+
+  <script>
+    let scanned = false;
+
+    function showMessage(message, color) {
+      const statusDiv = document.getElementById('status');
+      statusDiv.textContent = message;
+      statusDiv.style.color = color;
+    }
+
+    async function checkLocation() {
+      return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        } else {
+          reject('Geolocation is not supported by this browser.');
+        }
+      });
+    }
+
+    async function onScanSuccess(qrCodeMessage) {
+      if (scanned) return;
+
+      const rollNumber = document.getElementById('rollNumber').value.trim();
+      if (!rollNumber) {
+        alert('Please enter your roll number before scanning.');
+        return;
+      }
+
+      scanned = true; // prevent multiple scans
+
+      try {
+        // Step 1: Check the student's location
+        const location = await checkLocation();
+        console.log('Student Location:', location.coords); // You can validate this further if needed
+
+        const url = new URL(qrCodeMessage);
+        const sessionId = url.searchParams.get("sessionId");
+
+        // Step 2: Mark attendance
+        const res = await fetch('http://localhost:5000/api/attendance/mark', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId, rollNumber })
+        });
+
+        const data = await res.json();
+        showMessage(data.message || 'Login Successfull😀!', 'green');
+
+        // Optionally stop the scanner
+        html5QrCode.stop().then(() => {
+          console.log('QR Code scanning stopped.');
+        });
+
+        // Step 3: Redirect to attendance page after 2 seconds
+        setTimeout(() => {
+          window.location.href = 'attendance.html';
+        }, 5000);
+
+      } catch (err) {
+        console.error('Error marking attendance or checking location:', err);
+        showMessage('Error: Could not mark attendance.', 'red');
+        scanned = false; // allow retry
+      }
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 250 },
+      onScanSuccess
+    );
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Attendance System</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+
+    <div class="bg-overlay">  <!-- Added background container -->
+
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="#"><i class="bi bi-person-check"></i> Attendance System</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html"><i class="bi bi-house-door"></i> Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="signup.html"><i class="bi bi-person-plus"></i> Signup</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Carousel Section -->
+        <div class="carousel-container">
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://www.techden.in/uploads/images/2024-08-28-12/305efa213253d198a4730b3f677ed32b.png" class="d-block" alt="Attendance Tracking">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://img.freepik.com/free-photo/calendar-schedule-list_53876-121333.jpg?t=st=1740682398~exp=1740685998~hmac=e883159ff95d9437059ccb2193516d261d13c4f8d7eb1876223ea7a76f617f78&w=996" class="d-block" alt="Student Attendance">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://img.freepik.com/free-photo/data-information-analytics-perfomance-concept_53876-122458.jpg?t=st=1740682497~exp=1740686097~hmac=6f60af638ed7ccaf243dab8b0c2c8f114ae5da7844e15db6e797eb14ff87283f&w=1380" class="d-block" alt="Classroom">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Welcome to the Attendance Management System</h1>
+            <p>Track student attendance easily and efficiently.</p>
+            <a href="login.html" class="btn btn-primary btn-lg"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+            <a href="signup.html" class="btn btn-outline-light btn-lg"><i class="bi bi-person-plus"></i> Signup</a>
+        </div>
+
+
+        <div class="container text-center my-4">
+            <h1 class="section-title">Current Time: <span id="liveClock"></span></h1>
+        </div>
+
+
+        <!-- New Image Container Section -->
+        <div class="container text-center my-5">
+            <h2 class="section-title">Explore Our Features</h2><br><br>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <img src="https://img.freepik.com/free-photo/standard-quality-control-collage-concept_23-2149595831.jpg?t=st=1740682477~exp=1740686077~hmac=0cce5b640d040ac52b119b7a80e2a6fa64dfe9dcc56ace26d0090ae60dcb2c91&w=1380" class="img-fluid rounded" alt="Feature 1">
+                        <h5>Automated Attendance</h5>
+                        <p>Mark attendance automatically using QR-code scan systems.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <img src="https://img.freepik.com/free-photo/customer-marketing-sales-dashboard-graphics-concept_53876-133831.jpg?t=st=1740682831~exp=1740686431~hmac=da56c5499832f2e31cdf06877f88527094b34898aa8a496ba7613a8ea4c21391&w=1380" class="img-fluid rounded" alt="Feature 2">
+                        <h5>Analytics Dashboard</h5>
+                        <p>Get detailed insights into student attendance records and give result in dashboard.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <img src="https://img.freepik.com/free-photo/still-life-friendship-day-composition_23-2148970530.jpg?t=st=1740682990~exp=1740686590~hmac=353a42661a68b2d71f4f9ec2b614fe85dcc7bafcbe02bf8436541ea1120a1866&w=1380" class="img-fluid rounded" alt="Feature 3">
+                        <h5>Easy Reports</h5>
+                        <p>Download and manage attendance reports effortlessly and securely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Description Section -->
+<div class="container my-5">
+    <h2 class="text-center">About Our Attendance System</h2>
+    <p class="text-center">
+        Our Attendance Management System is designed to simplify attendance tracking for schools, universities, and organizations. 
+        With automated attendance marking, real-time reports, and insightful analytics, you can easily manage student or employee records efficiently.
+    </p>
+</div>
+
+
+
+       
+        <!-- Contact Section -->
+        <div class="container text-center my-5">
+            <h2>Contact Us</h2>
+            <form>
+                <div class="mb-3"><input type="text" class="form-control" placeholder="Your Name"></div>
+                <div class="mb-3"><input type="email" class="form-control" placeholder="Your Email"></div>
+                <div class="mb-3"><textarea class="form-control" rows="3" placeholder="Your Message"></textarea></div>
+                <button class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div> <!--my code part-->
+
+    
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('liveClock').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateClock, 1000);
+    </script>
+
+    </div> <!-- End of bg-overlay -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

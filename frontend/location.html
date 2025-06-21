@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checking Location...</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .error {
+      color: red;
+    }
+    .success {
+      color: green;
+    }
+  </style>
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+  <h2>Location Check</h2>
+  <div id="message">Checking your location...</div>
+  <script>
+    const allowedLat = 11.272192;   // College latitude
+    const allowedLng = 77.6011776;   // College longitude
+    const allowedRadiusMeters = 100;  
+
+    function toRad(deg) {
+      return deg * (Math.PI / 180);
+    }
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371e3;
+      const dLat = toRad(lat2 - lat1);
+      const dLon = toRad(lon2 - lon1);
+      const a = Math.sin(dLat/2)**2 +
+                Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                Math.sin(dLon/2)**2;
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    }
+
+    function showMessage(msg, isError) {
+      const msgDiv = document.getElementById("message");
+      msgDiv.textContent = msg;
+      msgDiv.className = isError ? "error" : "success";
+    }
+
+    // Check location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          const distance = getDistance(allowedLat, allowedLng, lat, lng);
+
+          if (distance <= allowedRadiusMeters) {
+            showMessage("✅ Location verified. Redirecting...", false);
+            setTimeout(() => {
+              window.location.href = "scan.html";
+            }, 1500);
+          } else {
+            showMessage("❌ You are not in the allowed area. Access denied.", true);
+          }
+        },
+        (err) => {
+          showMessage("Geolocation Error: " + err.message, true);
+        }
+      );
+    } else {
+      showMessage("Geolocation is not supported by this browser.", true);
+    }
+  </script>
+</body>
+</html>

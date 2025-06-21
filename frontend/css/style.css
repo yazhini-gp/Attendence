@@ -1,0 +1,147 @@
+/* Background Image */
+
+body {
+    background-image: url('https://i.pinimg.com/originals/7f/e7/74/7fe774bbacce09f00cb5b2e3cbc48db3.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh; /* Ensure at least full screen */
+    height: auto; /* Allow it to expand */
+    background-attachment: fixed; /* Keeps background fixed */
+}
+
+
+/* Navbar */
+.navbar {
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hero Section */
+.hero {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: url('https://source.unsplash.com/1600x900/?education,technology') no-repeat center center/cover;
+    color: white;
+    padding: 50px;
+}
+
+.container{
+    color: white;
+}
+
+.p,ul, h3{
+    color: black;
+}
+.hero h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+/* Buttons */
+.btn {
+    margin: 10px;
+}
+
+/* Carousel Styling */
+.carousel-container {
+    position: relative;
+    z-index: 10;  
+    margin-top: 10px; /* Adjust this value as needed */
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-item img {
+    width: 420px;  
+    height: 370px; 
+    object-fit: cover;
+    margin: auto;
+    border-radius: 10px;
+}
+
+/* New Image Container */
+.container {
+    max-width: 1100px;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+}
+
+
+.feature-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.feature-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+
+.feature-card h5 {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .carousel-container {
+        margin-top: -1px;
+    }
+    .carousel-item img {
+        width: 200px;
+        height: 120px;
+    }
+}
+
+.feature-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Reduce container width for login page */
+.login-container {
+    max-width: 100px;  /* Adjust width */
+    margin: auto;
+    padding: 20px;
+}
+
+
+/*
+https://educloud.app/lms/src/attendance/hero2.png
+ihttps://tse2.mm.bing.net/th?id=OIP.XmmUKSIYDSrq1QdaZQuKBQHaEK&pid=Api&P=0&h=180
+https://media.istockphoto.com/vectors/attendance-concept-vector-flat-design-vector-id1198430065?k=6&m=1198430065&s=612x612&w=0&h=Ktb9grhfWNY3HMN-oKDcg8FaOBjvmYmd0AlrRnQOT_k=
+https://tse2.mm.bing.net/th?id=OIP.4HhB4qvdEnBrdF51coRCnAHaE5&pid=Api&P=0&h=180
+*/

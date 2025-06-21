@@ -1,0 +1,85 @@
+/* General Body Styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #e0f7fa, #ffffff);
+  color: #333;
+  margin: 0;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+/* Headings */
+h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Form Inputs */
+input {
+  padding: 10px;
+  margin: 10px;
+  width: 250px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #007BFF;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #007BFF;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* QR Canvas Styling */
+canvas {
+  margin-top: 20px;
+  border: 1px dashed #ccc;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+/* Status Message Styling */
+#status {
+  font-weight: bold;
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+/* Success and Error Colors */
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
+/* Centered Reader Box */
+#reader {
+  margin: 0 auto;
+  padding: 15px;
+  border: 2px solid #aaa;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+}

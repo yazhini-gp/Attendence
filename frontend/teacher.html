@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teacher QR Generator</title>
+  <link rel="stylesheet" href="style1.css">
+  <script src="https://cdn.jsdelivr.net/npm/qrious/dist/qrious.min.js"></script>
+</head>
+<body>
+  <h2>Generate Attendance QR</h2>
+  <input type="text" id="className" placeholder="Enter class name">
+  <input type="text" id="sessionId" placeholder="Enter session ID">
+  <button onclick="generateQR()">Generate QR</button>
+  <br><br>
+  <canvas id="qr"></canvas>
+
+  <!-- Button to go to attendance page will appear after generating QR -->
+  <button id="proceedButton" style="display: none;" onclick="goToAttendance()">Proceed to Attendance</button>
+
+  <script>
+    async function generateQR() {
+      const className = document.getElementById('className').value;
+      const sessionId = document.getElementById('sessionId').value;
+
+      if (!sessionId || !className) {
+        alert('Please enter both class name and session ID');
+        return;
+      }
+
+      // 1. Create session in backend
+      try {
+        const res = await fetch('http://localhost:5000/api/session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ className, sessionId })
+        });
+
+        const data = await res.json();  // Check the response here
+
+        if (!res.ok) {
+          throw new Error(data.message || 'Failed to create session');
+        }
+        console.log('✅ Session created:', data);
+      } catch (err) {
+        alert('❌ ' + err.message);
+        return;
+      }
+
+      // 2. Generate QR
+      const qr = new QRious({
+        element: document.getElementById('qr'),
+        size: 250,
+        value: `http://localhost:5000/scan.html?sessionId=${sessionId}`
+      });
+
+      // 3. Show proceed button after generating QR (waiting for teacher to finish scanning)
+      setTimeout(() => {
+        document.getElementById('proceedButton').style.display = 'inline-block';
+      }, 1000);  // Show the button after 1 second (for better UX)
+    }
+
+    // Function to manually go to attendance page
+    function goToAttendance() {
+      window.location.href = 'attendance.html';
+    }
+  </script>
+</body>
+</html>

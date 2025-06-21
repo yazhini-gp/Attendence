@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Attendance Report</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <h2>Attendance Report Generator</h2>
+  <button onclick="generatePDF()">Download PDF Report</button>
+
+  <script>
+    async function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const date = new Date().toLocaleDateString();
+      const presentCount = localStorage.getItem('presentCount') || 0;
+      const absentCount = localStorage.getItem('absentCount') || 0;
+
+      doc.setFontSize(18);
+      doc.text("Attendance Report", 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Date: ${date}`, 20, 30);
+      doc.text(`Present: ${presentCount}`, 20, 40);
+      doc.text(`Absent: ${absentCount}`, 20, 50);
+
+      doc.save(`Attendance_Report_${date.replace(/\//g, '-')}.pdf`);
+    }
+  </script>
+</body>
+</html>
